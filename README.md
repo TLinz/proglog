@@ -1,1 +1,1 @@
-proglog
+Simple Distributed Services with Golang.
