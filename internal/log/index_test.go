@@ -37,7 +37,7 @@ func TestIndex(t *testing.T) {
 		require.Equal(t, want.Pos, pos)
 	}
 
-	// Index and scanner should error when reading existing entries.
+	// Index and scanner should error when reading past	existing entries.
 	_, _, err = idx.Read(int64(len(entries)))
 	require.Equal(t, io.EOF, err)
 	_ = idx.Close()
