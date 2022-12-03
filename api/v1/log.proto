@@ -4,6 +4,40 @@ package log.v1;
 
 option go_package = "github.com/TLinz/api/log_v1";
 
+// A gRPC service is essentially a group of related RPC endpoints.
+// 'service' keyword means this is a service for compiler to generate.
+service Log {
+    // Each RPC line is an endpoint in this service,
+    // specifying the type of request and response the endpoint accepts.
+    // The requests and responses are messages that the compiler turns into Go structs.
+    rpc Produce(ProduceRequest) returns (ProduceResponse) {}
+    rpc Consume(ConsumeRequest) returns (ConsumeResponse) {}
+
+    // A server-side streaming RPC, where the client sends a request to the 
+    // server and gets back a stream to read a sequence of messages.
+    rpc ConsumeStream(ConsumeRequest) returns (stream ConsumeResponse) {}
+
+    // A bidirectional streaming RPC where both the client and server send 
+    // a sequence of messages using a read-write stream.
+    rpc ProduceStream(stream ProduceRequest) returns (stream ProduceResponse) {}
+}
+
+message ProduceRequest {
+    Record record = 1;
+}
+
+message ProduceResponse {
+    uint64 offset = 1;
+}
+
+message ConsumeRequest {
+    uint64 offset = 1;
+}
+
+message ConsumeResponse {
+    Record record = 2;
+}
+
 message Record {
     bytes value = 1;
     uint64 offset = 2;
