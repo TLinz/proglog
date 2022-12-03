@@ -8,10 +8,12 @@ import (
 )
 
 var (
+	// Defines the encoding of record sizes and index entries.
 	enc = binary.BigEndian
 )
 
 const (
+	// Defines the number of bytes used to store record's length.
 	lenWidth = 8
 )
 
@@ -35,6 +37,7 @@ func newStore(f *os.File) (*store, error) {
 	}, nil
 }
 
+// The segment will use 'pos' when it creates an associated index entry for this record.
 func (s *store) Append(p []byte) (n uint64, pos uint64, err error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
@@ -68,6 +71,7 @@ func (s *store) Read(pos uint64) ([]byte, error) {
 	return b, nil
 }
 
+// Implement 'io.ReaderAt' on the 'store' type.
 func (s *store) ReadAt(p []byte, off int64) (int, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()

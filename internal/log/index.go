@@ -63,6 +63,7 @@ func (i *index) Close() error {
 	return i.file.Close()
 }
 
+// We use relative offsets to reduce the size of the indexes by storing offsets as uint32s.
 func (i *index) Read(in int64) (out uint32, pos uint64, err error) {
 	if i.size == 0 {
 		return 0, 0, io.EOF

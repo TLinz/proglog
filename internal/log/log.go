@@ -38,6 +38,9 @@ func NewLog(dir string, c Config) (*Log, error) {
 	return l, l.setup()
 }
 
+// When a log starts, it's responsible for setting itself up for
+// the segments that already exist on disk or, if the log is new
+// and has no existing segments, for bootstrapping the initial segment.
 func (l *Log) setup() error {
 	files, err := ioutil.ReadDir(l.Dir)
 	if err != nil {
